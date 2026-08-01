@@ -1,0 +1,431 @@
+.help-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.help-header {
+    margin-bottom: 32px;
+}
+
+.help-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+}
+
+.help-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.help-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.help-section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+}
+
+/* Issues Grid */
+.issues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.issue-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+}
+
+.issue-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.issue-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.issue-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.issue-solution {
+    font-size: 13px;
+    color: var(--text-primary);
+    padding: 12px;
+    background: var(--bg-surface-hover);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent-color);
+}
+
+.issue-solution strong {
+    color: var(--accent-color);
+}
+
+/* Support Section */
+.support-section {
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+}
+
+.support-section h2 {
+    margin-top: 0;
+}
+
+.support-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.support-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.support-icon {
+    font-size: 36px;
+}
+
+.support-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.support-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.support-username {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition);
+    padding: 4px 0;
+}
+
+.support-username:hover {
+    color: var(--accent-hover);
+}
+
+.copy-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.support-username:hover .copy-hint {
+    opacity: 1;
+}
+
+.support-message {
+    padding: 16px;
+    background: var(--bg-surface-hover);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent-color);
+}
+
+.support-message p {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.support-message p:last-child {
+    margin-bottom: 0;
+}
+
+.support-response-time {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Tips Grid */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.tip-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+}
+
+.tip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.tip-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.tip-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+}
+
+.tip-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .help-container {
+        padding: 16px;
+    }
+
+    .help-header h1 {
+        font-size: 26px;
+    }
+
+    .help-subtitle {
+        font-size: 14px;
+    }
+
+    .issues-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .support-username {
+        font-size: 18px;
+    }
+
+    .support-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .help-container {
+        padding: 12px;
+    }
+
+    .help-header h1 {
+        font-size: 22px;
+    }
+
+    .help-section h2 {
+        font-size: 18px;
+    }
+
+    .issue-card {
+        padding: 16px;
+    }
+
+    .issue-title {
+        font-size: 15px;
+    }
+
+    .issue-description {
+        font-size: 13px;
+    }
+
+    .issue-solution {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .support-username {
+        font-size: 16px;
+        flex-wrap: wrap;
+    }
+
+    .copy-hint {
+        font-size: 11px;
+    }
+
+    .tip-card {
+        padding: 16px;
+    }
+}
+
+/* VK 2011 Theme Overrides */
+body.vk2011-theme .help-header h1 {
+    color: #4a76a8 !important;
+    font-size: 20px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+}
+
+body.vk2011-theme .help-subtitle {
+    color: #555555 !important;
+    font-size: 12px !important;
+}
+
+body.vk2011-theme .help-section h2 {
+    color: #4a76a8 !important;
+    font-size: 16px !important;
+}
+
+body.vk2011-theme .issue-card {
+    background: #ffffff !important;
+    border: 1px solid #dae1e8 !important;
+    border-radius: 4px !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .issue-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .issue-title {
+    color: #2b587a !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
+
+body.vk2011-theme .issue-description {
+    color: #000000 !important;
+    font-size: 11px !important;
+}
+
+body.vk2011-theme .issue-solution {
+    background: #f5f7fa !important;
+    border-left-color: #4a76a8 !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+}
+
+body.vk2011-theme .issue-solution strong {
+    color: #4a76a8 !important;
+}
+
+body.vk2011-theme .support-section {
+    background: #ffffff !important;
+    border: 1px solid #dae1e8 !important;
+    border-radius: 4px !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .support-label {
+    color: #777777 !important;
+    font-size: 11px !important;
+}
+
+body.vk2011-theme .support-username {
+    color: #4a76a8 !important;
+    font-size: 16px !important;
+}
+
+body.vk2011-theme .support-username:hover {
+    color: #3b628f !important;
+}
+
+body.vk2011-theme .copy-hint {
+    color: #999999 !important;
+    font-size: 10px !important;
+}
+
+body.vk2011-theme .support-message {
+    background: #f5f7fa !important;
+    border-left-color: #4a76a8 !important;
+}
+
+body.vk2011-theme .support-message p {
+    color: #000000 !important;
+    font-size: 11px !important;
+}
+
+body.vk2011-theme .support-response-time {
+    color: #777777 !important;
+}
+
+body.vk2011-theme .tip-card {
+    background: #ffffff !important;
+    border: 1px solid #dae1e8 !important;
+    border-radius: 4px !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .tip-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .tip-card h4 {
+    color: #2b587a !important;
+    font-size: 13px !important;
+}
+
+body.vk2011-theme .tip-card p {
+    color: #000000 !important;
+    font-size: 11px !important;
+}
+
+body.vk2011-theme .tip-icon {
+    font-size: 22px !important;
+}

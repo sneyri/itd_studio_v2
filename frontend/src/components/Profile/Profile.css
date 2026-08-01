@@ -1,0 +1,174 @@
+/* ==========================================================================
+   PROFILE.CSS - Styles for Profile Component
+   ========================================================================== */
+
+.profile-container {
+    padding: 24px;
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-container h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+}
+
+.profile-container p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+}
+
+.profile-container button {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font-main);
+    color: var(--text-primary);
+    background: var(--bg-surface-solid);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.profile-container button:hover:not(:disabled) {
+    background: var(--bg-surface-hover);
+    border-color: var(--text-secondary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+        border-radius: var(--radius-md);
+    }
+    
+    .profile-container h2 {
+        font-size: 20px;
+    }
+    
+    .profile-container p {
+        font-size: 14px;
+    }
+    
+    .profile-container button {
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 16px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .profile-container h2 {
+        font-size: 18px;
+    }
+    
+    .profile-container p {
+        font-size: 13px;
+        margin-bottom: 16px;
+    }
+    
+    .profile-container button {
+        padding: 6px 14px;
+        font-size: 12px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 360px) {
+    .profile-container {
+        padding: 14px;
+    }
+    
+    .profile-container h2 {
+        font-size: 16px;
+    }
+    
+    .profile-container p {
+        font-size: 12px;
+    }
+}
+
+/* ==========================================================================
+   VK 2011 THEME OVERRIDES
+   ========================================================================== */
+
+body.vk2011-theme .profile-container {
+    background: #ffffff !important;
+    border: 1px solid #dae1e8 !important;
+    border-radius: 4px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    padding: 20px !important;
+}
+
+body.vk2011-theme .profile-container h2 {
+    color: #2b587a !important;
+    font-size: 18px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+}
+
+body.vk2011-theme .profile-container p {
+    color: #000000 !important;
+    font-size: 11px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+}
+
+body.vk2011-theme .profile-container button {
+    background: #eaeaea !important;
+    border: 1px solid #d0d0d0 !important;
+    border-radius: 3px !important;
+    color: #333333 !important;
+    font-size: 11px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+    padding: 5px 12px !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .profile-container button:hover {
+    background: #f0f0f0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}

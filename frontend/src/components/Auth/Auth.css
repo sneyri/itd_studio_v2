@@ -1,0 +1,268 @@
+/* ==========================================================================
+   AUTH.CSS - Styles for Auth Component
+   ========================================================================== */
+
+.auth__container {
+    width: 100%;
+    padding: 32px;
+    background: var(--bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth__input {
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--bg-surface-solid);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-main);
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+    min-height: 48px;
+}
+
+.auth__input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.auth__input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.auth__input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth__button {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.auth__button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+    background: linear-gradient(135deg, var(--accent-hover), #7c3aed);
+}
+
+.auth__button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.auth__button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.error {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #fca5a5;
+    font-size: 13px;
+    font-family: var(--font-main);
+    animation: shake 0.4s ease;
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-8px);
+    }
+    40% {
+        transform: translateX(8px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .auth__container {
+        padding: 24px;
+        border-radius: var(--radius-md);
+    }
+    
+    .auth__input {
+        padding: 12px 16px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+    
+    .auth__button {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth__container {
+        padding: 20px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .auth__input {
+        padding: 10px 14px;
+        font-size: 13px;
+        min-height: 40px;
+        margin-bottom: 12px;
+    }
+    
+    .auth__button {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+    
+    .error {
+        padding: 10px 12px;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .auth__container {
+        padding: 16px;
+    }
+    
+    .auth__input {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-height: 36px;
+    }
+    
+    .auth__button {
+        padding: 8px 14px;
+        font-size: 12px;
+        min-height: 36px;
+    }
+}
+
+/* ==========================================================================
+   VK 2011 THEME OVERRIDES
+   ========================================================================== */
+
+body.vk2011-theme .auth__container {
+    background: #ffffff !important;
+    border: 1px solid #dae1e8 !important;
+    border-radius: 4px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    padding: 24px 28px !important;
+}
+
+body.vk2011-theme .auth__input {
+    background: #ffffff !important;
+    border: 1px solid #c0cad5 !important;
+    border-radius: 2px !important;
+    color: #000000 !important;
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+    min-height: auto !important;
+    margin-bottom: 12px !important;
+}
+
+body.vk2011-theme .auth__input:focus {
+    border-color: #8fa1b5 !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .auth__input::placeholder {
+    color: #999999 !important;
+}
+
+body.vk2011-theme .auth__button {
+    background: #5c7fa6 !important;
+    border: 1px solid #45688e !important;
+    color: #ffffff !important;
+    padding: 6px 16px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    border-radius: 3px !important;
+    font-family: 'Tahoma', Arial, sans-serif !important;
+    box-shadow: none !important;
+    background-image: none !important;
+    min-height: auto !important;
+}
+
+body.vk2011-theme .auth__button:hover:not(:disabled) {
+    background: #6d8fb3 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body.vk2011-theme .auth__button:disabled {
+    opacity: 0.7 !important;
+}
+
+body.vk2011-theme .error {
+    background: #fff2f2 !important;
+    border-color: #e6c3c3 !important;
+    color: #cc0000 !important;
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+    border-radius: 2px !important;
+    margin-top: 10px !important;
+}
+
+body.vk2011-theme .error {
+    animation: none !important;
+}
