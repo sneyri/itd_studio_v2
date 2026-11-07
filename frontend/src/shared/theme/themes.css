@@ -1,0 +1,91 @@
+/*
+ * Темы: переопределяют только цветовые токены из tokens.css.
+ * Активная тема задаётся атрибутом data-theme на <html>.
+ */
+[data-theme='dark'] {
+  color-scheme: dark;
+  /* значения совпадают с :root в tokens.css */
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f4f4f5;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-card-hover: #fafafa;
+  --color-elevated: #f0f0f1;
+  --color-border: #e6e6e8;
+  --color-border-strong: #d4d4d8;
+  --color-divider: #e6e6e8;
+
+  --color-text: #0a0a0a;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #8b8b93;
+
+  --color-accent: #0a0a0a;
+  --color-accent-hover: #27272a;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(10, 10, 10, 0.06);
+
+  --color-success: #16a34a;
+  --color-warning: #b45309;
+  --color-danger: #dc2626;
+  --color-success-soft: rgba(22, 163, 74, 0.1);
+  --color-warning-soft: rgba(180, 83, 9, 0.1);
+  --color-danger-soft: rgba(220, 38, 38, 0.08);
+
+  --color-chart-line: #0a0a0a;
+  --color-chart-fill: #0a0a0a;
+  --color-chart-bar: #0a0a0a;
+  --color-chart-bar-muted: #d4d4d8;
+  --color-chart-secondary: #a1a1aa;
+  --color-chart-grid: #ececee;
+  --color-chart-axis: #71717a;
+
+  --color-skeleton: #ececee;
+  --color-skeleton-shine: #f6f6f7;
+  --color-overlay: rgba(0, 0, 0, 0.3);
+  --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* «VK»: светлая тема с синим акцентом (только палитра, без чужих логотипов) */
+[data-theme='vk'] {
+  color-scheme: light;
+  --color-bg: #edeef0;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-card-hover: #f9fafb;
+  --color-elevated: #f0f2f5;
+  --color-border: #e1e3e6;
+  --color-border-strong: #c9ccd1;
+  --color-divider: #e1e3e6;
+
+  --color-text: #000000;
+  --color-text-secondary: #626d7a;
+  --color-text-muted: #818c99;
+
+  --color-accent: #0077ff;
+  --color-accent-hover: #0066dd;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(0, 119, 255, 0.1);
+
+  --color-success: #4bb34b;
+  --color-warning: #e8a400;
+  --color-danger: #e64646;
+  --color-success-soft: rgba(75, 179, 75, 0.12);
+  --color-warning-soft: rgba(232, 164, 0, 0.12);
+  --color-danger-soft: rgba(230, 70, 70, 0.1);
+
+  --color-chart-line: #0077ff;
+  --color-chart-fill: #0077ff;
+  --color-chart-bar: #0077ff;
+  --color-chart-bar-muted: #c4d9f5;
+  --color-chart-secondary: #99a2ad;
+  --color-chart-grid: #ebedf0;
+  --color-chart-axis: #818c99;
+
+  --color-skeleton: #e7e8ec;
+  --color-skeleton-shine: #f3f4f6;
+  --color-overlay: rgba(0, 0, 0, 0.3);
+  --shadow-popover: 0 12px 32px rgba(0, 28, 61, 0.12);
+}

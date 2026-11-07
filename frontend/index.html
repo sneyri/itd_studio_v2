@@ -1,10 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/logo.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ИТД Студия</title>
+    <link rel="icon" type="image/jpeg" href="/src/assets/logo.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>ITD Studio</title>
+    <script>
+      // Применяем сохранённую тему до загрузки JS, чтобы не было вспышки светлого/тёмного.
+      try {
+        var t = localStorage.getItem('itd-studio:theme')
+        if (t === 'dark' || t === 'light' || t === 'vk') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

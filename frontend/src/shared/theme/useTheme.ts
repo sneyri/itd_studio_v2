@@ -1,0 +1,9 @@
+/** Единственная реализация хука темы. */
+import { useContext } from 'react'
+import { ThemeContext, type ThemeContextValue } from './themeContext'
+
+export function useTheme(): ThemeContextValue {
+  const ctx = useContext(ThemeContext)
+  if (!ctx) throw new Error('useTheme должен вызываться внутри ThemeProvider')
+  return ctx
+}

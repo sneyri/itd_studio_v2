@@ -1,0 +1,104 @@
+/*
+ * Дизайн-токены ITD Studio.
+ * Все цвета, размеры, радиусы и шрифты интерфейса живут здесь.
+ * Компоненты используют только var(--…); темы (themes.css) переопределяют цветовые токены.
+ * Значения по умолчанию = тёмная тема (как на макете).
+ */
+:root {
+  /* --- Типографика --- */
+  --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-metric: 22px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-base: 1.5;
+
+  /* --- Отступы (шкала 4px) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* --- Скругления --- */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+
+  /* --- Размеры каркаса --- */
+  --sidebar-width: 244px;
+  --topbar-height: 66px;
+  --tabbar-height: 64px;
+  --content-max-width: 1320px;
+  --icon-size: 22px;
+  --icon-size-lg: 28px;
+  --avatar-size: 38px;
+  --control-height: 36px;
+
+  /* --- Анимации --- */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+
+  /* --- Слои --- */
+  --z-sticky: 20;
+  --z-tabbar: 30;
+  --z-popover: 40;
+
+  /* --- Цвета: тёмная тема (по умолчанию) --- */
+  color-scheme: dark;
+  --color-bg: #000000;
+  --color-surface: #0d0d0d;
+  --color-card: #121212;
+  --color-card-hover: #171717;
+  --color-elevated: #1b1b1b;
+  --color-border: #1f1f1f;
+  --color-border-strong: #2e2e2e;
+  /* разделитель каркаса (сайдбар/топбар): в тёмной теме его нет, как на макете */
+  --color-divider: transparent;
+
+  --color-text: #ffffff;
+  --color-text-secondary: #a1a1a1;
+  --color-text-muted: #6e6e6e;
+
+  --color-accent: #ffffff;
+  --color-accent-hover: #e6e6e6;
+  --color-accent-contrast: #000000;
+  --color-accent-soft: rgba(255, 255, 255, 0.08);
+
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-success-soft: rgba(74, 222, 128, 0.12);
+  --color-warning-soft: rgba(251, 191, 36, 0.12);
+  --color-danger-soft: rgba(248, 113, 113, 0.12);
+
+  --color-chart-line: #ffffff;
+  --color-chart-fill: #ffffff;
+  --color-chart-bar: #ffffff;
+  --color-chart-bar-muted: #3a3a3a;
+  --color-chart-secondary: #7a7a7a;
+  --color-chart-grid: #222222;
+  --color-chart-axis: #8a8a8a;
+
+  --color-skeleton: #1a1a1a;
+  --color-skeleton-shine: #262626;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,317 @@
+/* Каркас приложения: сайдбар, топбар, контент, нижний таб-бар, уведомления. */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------- Логотип ---------- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.logo__mark {
+  border-radius: 6px;
+  object-fit: cover;
+}
+.logo__text { line-height: 1; }
+.logo__divider { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
+.logo__studio { color: var(--color-text-secondary); font-weight: var(--font-weight-medium); }
+
+/* ---------- Сайдбар ---------- */
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  padding: var(--space-5) var(--space-2) var(--space-5);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-divider);
+}
+.sidebar > .logo {
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-10);
+  min-height: 34px;
+}
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.sidebar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 50px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.sidebar__link:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+.sidebar__link--active,
+.sidebar__link--active:hover {
+  background: var(--color-elevated);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+}
+.sidebar__link--active::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-2));
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-accent);
+}
+.sidebar__bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2) 0;
+  border-top: 1px solid var(--color-border);
+}
+.sidebar__user-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.sidebar__user-name,
+.sidebar__user-handle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidebar__user-name { font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); }
+.sidebar__user-handle { font-size: var(--font-size-xs); color: var(--color-text-secondary); }
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.icon-button:hover:not(:disabled) { background: var(--color-accent-soft); color: var(--color-text); }
+.icon-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Основная колонка ---------- */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--topbar-height);
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+}
+.topbar__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.topbar__logo { display: none; }
+.topbar__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topbar__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.sync-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.sync-control__meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding: var(--space-10) var(--space-8) var(--space-12);
+}
+
+/* ---------- Уведомление о синхронизации ---------- */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+.notice svg { flex-shrink: 0; }
+.notice--success { background: var(--color-success-soft); }
+.notice--success svg { color: var(--color-success); }
+.notice--warning { background: var(--color-warning-soft); }
+.notice--warning svg { color: var(--color-warning); }
+.notice--danger { background: var(--color-danger-soft); }
+.notice--danger svg { color: var(--color-danger); }
+.notice__text { flex: 1; min-width: 0; }
+.notice__close {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+.notice__close:hover { background: var(--color-accent-soft); color: var(--color-text); }
+
+/* ---------- Заглушки загрузки ---------- */
+.page-fallback {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-12);
+  color: var(--color-text-secondary);
+}
+.page-fallback--fullscreen {
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+.page-fallback__logo { border-radius: var(--radius-sm); }
+.auth-error-card { width: 100%; max-width: 440px; }
+
+/* ---------- Нижний таб-бар (мобильные) ---------- */
+.tabbar { display: none; }
+
+@media (max-width: 1100px) {
+  .sync-control__meta { display: none; }
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .topbar { padding: var(--space-3) var(--space-4); }
+  .topbar__logo { display: inline-flex; }
+  .app-content {
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-4) calc(var(--tabbar-height) + var(--space-6) + env(safe-area-inset-bottom));
+  }
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-tabbar);
+    display: flex;
+    height: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+  .tabbar__link {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+  }
+  .tabbar__link span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tabbar__link:hover { color: var(--color-text-secondary); }
+  .tabbar__link--active,
+  .tabbar__link--active:hover { color: var(--color-text); }
+  .tabbar__link--active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30%;
+    right: 30%;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: var(--color-accent);
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    position: static;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .topbar__title { font-size: var(--font-size-lg); }
+  .topbar__controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .sync-control__button .btn__label { display: none; }
+  .sync-control__button { padding: 0 var(--space-3); }
+}
