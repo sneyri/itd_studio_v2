@@ -298,6 +298,36 @@
     border-radius: 0 0 2px 2px;
     background: var(--color-accent);
   }
+  button.tabbar__link { border: 0; background: transparent; padding: 0; font-family: inherit; cursor: pointer; }
+  .tabbar__menu {
+    position: absolute;
+    right: var(--space-2);
+    bottom: calc(100% + var(--space-2));
+    z-index: var(--z-popover);
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    padding: var(--space-1);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-card);
+    box-shadow: var(--shadow-popover);
+    animation: dropdown-in-up 140ms ease-out;
+  }
+  .tabbar__menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    text-decoration: none;
+  }
+  .tabbar__menu-item:hover { background: var(--color-accent-soft); }
+  .tabbar__menu-item--active { background: var(--color-accent); color: var(--color-accent-contrast); }
+  .tabbar__menu-item--active:hover { background: var(--color-accent); }
 }
 
 @media (max-width: 640px) {

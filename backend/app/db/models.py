@@ -8,6 +8,7 @@
 - post_metrics_snapshots  — снимки метрик постов (пишутся, только если метрики изменились);
 - notification_events     — уведомления итд (подписки, комментарии), источник реальных дат;
 - follow_events           — подписки, восстановленные из уведомлений, с дедупликацией;
+- itd_users               — справочник пользователей итд (авторы уведомлений, подписчики) со статусом верификации;
 - sync_jobs               — очередь задач синхронизации для воркера.
 """
 
@@ -83,6 +84,8 @@ class Post(Base):
     views_count: Mapped[int] = mapped_column(Integer, default=0)
     is_repost: Mapped[bool] = mapped_column(Boolean, default=False)
     repost_original_id: Mapped[str | None] = mapped_column(String(64))
+    # JSON-массив вложений [{id,url,mime,width,height}]; NULL — пост не синхронизировался после внедрения вложений.
+    attachments: Mapped[str | None] = mapped_column(Text)
     last_seen_at: Mapped[datetime | None] = mapped_column(UTCDateTime)
 
 
@@ -123,6 +126,20 @@ class NotificationEvent(Base):
     target_id: Mapped[str | None] = mapped_column(String(64))
     preview: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(UTCDateTime)
+    actor_is_verified: Mapped[bool | None] = mapped_column(Boolean)
+    is_read: Mapped[bool | None] = mapped_column(Boolean)
+    target_type: Mapped[str | None] = mapped_column(String(32))
+
+
+class ItdUser(Base):
+    __tablename__ = "itd_users"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)  # id пользователя в итд
+    username: Mapped[str | None] = mapped_column(String(255), index=True)
+    display_name: Mapped[str | None] = mapped_column(String(255))
+    avatar: Mapped[str | None] = mapped_column(Text)
+    is_verified: Mapped[bool | None] = mapped_column(Boolean)
+    updated_at: Mapped[datetime | None] = mapped_column(UTCDateTime)
 
 
 class FollowEvent(Base):

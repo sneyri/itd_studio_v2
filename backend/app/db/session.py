@@ -30,6 +30,10 @@ def build_engine(db_url: str) -> Engine:
             cursor = dbapi_conn.cursor()
             cursor.execute("PRAGMA foreign_keys=ON")
             cursor.execute("PRAGMA busy_timeout=30000")
+            # Встроенный lower() в SQLite понимает только ASCII — для поиска по кириллице нужен Python-вариант.
+            dbapi_conn.create_function(
+                "py_lower", 1, lambda v: v.lower() if isinstance(v, str) else v, deterministic=True
+            )
             if url.database and url.database != ":memory:":
                 cursor.execute("PRAGMA journal_mode=WAL")
             cursor.close()

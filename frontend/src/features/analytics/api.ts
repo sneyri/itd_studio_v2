@@ -7,7 +7,7 @@ import type {
   Overview,
   PostingTime,
   PostsPage,
-  PostsSort,
+  PostsQuery,
   PublicationDaysResponse,
   WeekdaysResponse,
 } from './types'
@@ -20,5 +20,5 @@ export const analyticsApi = {
   dynamics: () => api.get<DynamicsResponse>('/analytics/engagement/dynamics'),
   postingTime: () => api.get<PostingTime>('/analytics/posting-time'),
   weekdays: () => api.get<WeekdaysResponse>('/analytics/weekdays'),
-  posts: (params: { limit: number; offset: number; sort: PostsSort }) => api.get<PostsPage>(`/posts${toQuery(params)}`),
+  posts: (params: PostsQuery) => api.get<PostsPage>(`/posts${toQuery(params)}`),
 }

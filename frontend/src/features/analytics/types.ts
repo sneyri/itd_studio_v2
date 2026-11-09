@@ -1,7 +1,18 @@
-/** Типы ответов аналитики и постов — строго по docs/API.md. */
+/** Типы ответов аналитики и постов — по контракту API (v2.1: вложения постов). */
 
 /** Происхождение ряда: реальные снимки / восстановлено по уведомлениям / по дате публикации постов */
 export type DataSource = 'snapshot' | 'notifications' | 'post_date'
+
+export type AttachmentKind = 'image' | 'video' | 'audio' | 'file'
+
+export type Attachment = {
+  id: string
+  url: string
+  kind: AttachmentKind
+  mime: string | null
+  width: number | null
+  height: number | null
+}
 
 export type Post = {
   id: string
@@ -13,15 +24,23 @@ export type Post = {
   reposts_count: number
   is_repost: boolean
   url: string
+  /** [] — вложений нет или пост ещё не пересинхронизирован после их внедрения */
+  attachments: Attachment[]
 }
 
 export type PostsSort = 'new' | 'views' | 'likes' | 'comments'
+
+export type PostsMediaFilter = 'all' | 'with_media' | 'image' | 'video' | 'text_only'
+
+export type PostsQuery = { limit: number; offset: number; sort: PostsSort; media: PostsMediaFilter }
 
 export type PostsPage = {
   items: Post[]
   total: number
   limit: number
   offset: number
+  /** false — медиа ещё ни разу не синхронизировались */
+  attachments_synced: boolean
 }
 
 export type BestPostingTime = {

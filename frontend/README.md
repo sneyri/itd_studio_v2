@@ -1,7 +1,7 @@
 # ITD Studio — frontend
 
 React 19 + Vite + TypeScript. Данные — TanStack Query, маршруты — react-router, графики — Recharts.
-Контракт с бэкендом описан в [`../docs/API.md`](../docs/API.md).
+Контракт с бэкендом — HTTP API из корневого README (интерактивно: `http://127.0.0.1:8000/docs`).
 
 ## Запуск
 
@@ -47,7 +47,7 @@ src/
 │   ├── RequireAuth.tsx      защита маршрутов + SyncProvider
 │   └── layout/              каркас: Sidebar, Topbar, MobileTabbar, Logo, navigation.ts, layout.css
 ├── pages/                   страницы — только раскладка готовых блоков фич
-│   ├── DashboardPage  CommentsPage  AnalyticsPage  AudiencePage
+│   ├── DashboardPage  NotificationsPage  CommentsPage  AnalyticsPage  AudiencePage
 │   ├── SettingsPage   HelpPage      LoginPage
 │   └── pages.css
 ├── features/                бизнес-блоки: api.ts → hooks.ts → компоненты
@@ -59,15 +59,17 @@ src/
 │   │   ├── audience/        график подписчиков с источником, новые подписчики, «чего нет в API»
 │   │   ├── engagement/      по дню публикации, динамика по снимкам, активность по дням недели
 │   │   ├── posting-time/    средние метрики по часам публикации
-│   │   └── posts/           таблица постов, метрики поста
+│   │   └── posts/           таблица постов (фильтр медиа, раскрытие), PostMedia (фото/видео/лайтбокс), метрики
+│   ├── notifications/       уведомления: сводка, фильтры в URL, список с подгрузкой
 │   ├── comments/            последние комментарии (из уведомлений), самые обсуждаемые посты
 │   ├── settings/            часовой пояс, переключатель темы
 │   └── features.css
 └── shared/                  переиспользуемое, без знания о данных
     ├── api/                 client.ts (fetch + ApiError), queryKeys.ts
     ├── ui/                  Card, MetricCard, ChartContainer, EmptyState, ErrorState, Skeleton,
-    │                        Button, Field, Tabs, Badge, InfoHint, Avatar, ChartTooltip, icons, ui.css
-    ├── lib/                 format.ts (числа/даты ru-RU), constants.ts
+    │                        Button, Field (Input), Dropdown (Select / MultiSelect / поиск), Lightbox,
+    │                        VerifiedBadge, Tabs, Badge, InfoHint, Avatar, ChartTooltip, icons, ui.css, controls.css
+    ├── lib/                 format.ts (числа/даты ru-RU), constants.ts, useDebouncedValue.ts
     └── theme/               tokens.css (все цвета/размеры), themes.css (dark/light/vk), base.css,
                              ThemeProvider, useTheme
 ```
@@ -89,3 +91,25 @@ src/
 - ER подписан как «ER по просмотрам», формула — в подсказке.
 - На странице «Аудитория» есть блок «Чего нет в API итд»: отписки, даты подписки в списке подписчиков,
   демография, охват.
+
+## Медиа постов
+
+`Post.attachments` — картинки, видео, аудио и файлы. `PostMedia` рисует сетку картинок (1 / 2 / 3 / 4+, «+N»
+на последней), по клику — лайтбокс (Esc, ←/→, клик по фону). Видео — нативный плеер с `preload="metadata"`.
+Если файл в CDN итд недоступен — плейсхолдер «Медиа недоступно». В списках — миниатюра 48px и бейдж
+«N фото / видео». Если бэкенд отвечает `attachments_synced: false`, показывается подсказка синхронизироваться.
+
+## Уведомления (`/notifications`)
+
+- Сводка: всего, непрочитанные, от верифицированных / без галочки / статус неизвестен, график за 30 дней,
+  чипы типов (быстрый фильтр), топ-10 активных пользователей (клик = фильтр по автору).
+- Фильтры хранятся в URL (`?types=like&types=follow&actor=…&verified=true&unread=true&q=…&date_from=…&date_to=…&sort=old`),
+  поэтому ссылкой на выборку можно поделиться, а «Назад» возвращает предыдущий фильтр.
+- Поиск по тексту — с задержкой 300 мс; выбор автора — список с поиском по `/api/notifications/actors`.
+- Список подгружается по 30 штук («Показать ещё»).
+
+## Выпадающие списки
+
+Нативных `<select>` в проекте нет: `shared/ui/Dropdown.tsx` даёт `Select`, `MultiSelect` и режим `searchable`.
+Панель рендерится порталом (не обрезается карточками), открывается вверх, если снизу мало места, на узких экранах —
+по ширине поля. Клавиатура: ↑/↓, Home/End, Enter/Space, Esc, Tab, поиск по первым буквам; ARIA listbox/option.

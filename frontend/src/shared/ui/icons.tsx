@@ -169,3 +169,101 @@ export const IconChevronRight = (p: IconProps) => (
     <path d="m9.5 6 6 6-6 6" />
   </Svg>
 )
+
+export const IconChevronDown = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="m6 9.5 6 6 6-6" />
+  </Svg>
+)
+
+export const IconCheck = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="m5 12.5 4.5 4.5L19 7.5" />
+  </Svg>
+)
+
+export const IconClose = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 6l12 12M18 6 6 18" />
+  </Svg>
+)
+
+export const IconSearch = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m16 16 4.5 4.5" />
+  </Svg>
+)
+
+export const IconBell = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 2h-15l1.5-2Z" />
+    <path d="M10 20.5a2 2 0 0 0 4 0" />
+  </Svg>
+)
+
+/** Галочка верификации (залитый «цветок») */
+export const IconVerified = (p: IconProps) => (
+  <Svg {...p} strokeWidth={0}>
+    <path
+      fill="currentColor"
+      d="M12 2.5l2.4 1.7 2.9-.1 1 2.8 2.4 1.7-.9 2.8.9 2.8-2.4 1.7-1 2.8-2.9-.1L12 21.5l-2.4-1.7-2.9.1-1-2.8-2.4-1.7.9-2.8-.9-2.8 2.4-1.7 1-2.8 2.9.1L12 2.5Z"
+    />
+    <path d="m8.5 12.2 2.4 2.4 4.6-4.8" stroke="var(--color-verified-contrast, #fff)" strokeWidth={1.9} fill="none" />
+  </Svg>
+)
+
+export const IconUserPlus = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="10" cy="8" r="3.5" />
+    <path d="M3.5 19.5a6.5 6.5 0 0 1 13 0M18.5 8.5v5M16 11h5" />
+  </Svg>
+)
+
+export const IconRepost = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M17 3.5 20 6.5l-3 3" />
+    <path d="M4 11.5v-1a4 4 0 0 1 4-4h12M7 20.5l-3-3 3-3" />
+    <path d="M20 12.5v1a4 4 0 0 1-4 4H4" />
+  </Svg>
+)
+
+export const IconAt = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="3.5" />
+    <path d="M15.5 8.5v5a2.5 2.5 0 0 0 5 0V12a8.5 8.5 0 1 0-3.4 6.8" />
+  </Svg>
+)
+
+export const IconImage = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+    <circle cx="9" cy="9.5" r="1.6" />
+    <path d="m20.5 15.5-4.5-4.5-9 8.5" />
+  </Svg>
+)
+
+export const IconPlay = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
+  </Svg>
+)
+
+export const IconFile = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M14 3.5H7a1.5 1.5 0 0 0-1.5 1.5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8L14 3.5Z" />
+    <path d="M14 3.5V8h4.5" />
+  </Svg>
+)
+
+export const IconMore = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 12h.01M12 12h.01M18 12h.01" strokeWidth={3} />
+  </Svg>
+)
+
+export const IconFilter = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 5.5h16l-6 7.5v5l-4 2v-7L4 5.5Z" />
+  </Svg>
+)

@@ -4,7 +4,7 @@
 1. профиль (users.me) → обновить users + снимок account_snapshots;
 2. все посты → обновить posts + снимки метрик для изменившихся постов;
 3. новые уведомления (инкрементально) → notification_events + follow_events;
-4. список текущих подписчиков (без дат) → отметить, кто из follow_events ещё подписан.
+4. список текущих подписчиков (без дат) → itd_users (статус верификации) и отметка, кто из follow_events ещё подписан.
 Шаги 3–4 необязательные: их сбой не отменяет обновление профиля и постов.
 
 Ротированный итд refresh_token сохраняется сразу отдельной транзакцией, чтобы не потерять
@@ -131,9 +131,10 @@ class SyncRunner:
             try:
                 items = gateway.notifications(notifications.known_ids(user.id), settings.notifications_sync_limit)
                 new_follows = notifications.save_notifications(user.id, items)
-                ids = gateway.follower_ids(profile.id, profile.followers_count)
-                if ids is not None:
-                    notifications.mark_current_followers(user.id, ids)
+                followers = gateway.followers(profile.id, profile.followers_count)
+                if followers is not None:
+                    notifications.upsert_users(followers)
+                    notifications.mark_current_followers(user.id, {f.id for f in followers})
             except ItdAuthError:
                 raise
             except ItdError as exc:

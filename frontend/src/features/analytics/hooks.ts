@@ -2,7 +2,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { queryKeys } from '@/shared/api/queryKeys'
 import { analyticsApi } from './api'
-import type { PostsSort } from './types'
+import type { PostsQuery } from './types'
 
 export const useOverview = () => useQuery({ queryKey: queryKeys.overview, queryFn: analyticsApi.overview })
 
@@ -19,7 +19,7 @@ export const usePostingTime = () => useQuery({ queryKey: queryKeys.postingTime, 
 
 export const useWeekdays = () => useQuery({ queryKey: queryKeys.weekdays, queryFn: analyticsApi.weekdays })
 
-export const usePosts = (params: { limit: number; offset: number; sort: PostsSort }) =>
+export const usePosts = (params: PostsQuery) =>
   useQuery({
     queryKey: queryKeys.postsPage(params),
     queryFn: () => analyticsApi.posts(params),
