@@ -95,7 +95,8 @@ backend/
 │       ├── sync/                  постановка задач (rate limit), статус, воркер, сам процесс синка
 │       ├── users/                 профиль, снимки аккаунта, настройки (часовой пояс)
 │       ├── posts/                 посты, снимки метрик постов, /api/posts
-│       ├── notifications/         уведомления итд и follow_events (только репозиторий)
+│       ├── notifications/         уведомления итд: хранение, follow_events, справочник itd_users,
+│       │                          /api/notifications (фильтры, сортировка, сводка, авторы)
 │       ├── comments/              последние комментарии и топ постов по комментариям
 │       └── analytics/             overview, audience (подписчики), engagement, posting_time — чистые функции
 │                                  + service.py (сбор данных) + router.py + schemas.py
@@ -105,7 +106,6 @@ backend/
 └── .env.example
 
 frontend/                          см. frontend/README.md
-docs/API.md                        контракт HTTP API
 ```
 
 ## Переменные окружения (backend/.env)
@@ -142,6 +142,10 @@ docs/API.md                        контракт HTTP API
 | Лучшее время | средние просмотры на пост по часу публикации в поясе пользователя; час учитывается при ≥ 5 постах | Корреляция, не причинность |
 | Дни недели | по дате публикации в поясе пользователя | Точно |
 | Комментарии | уведомления `comment`, `reply`, `comment_mention` | Только то, что есть в истории уведомлений итд |
+| Уведомления (все типы) | `notifications` итд, сохраняются инкрементально при каждом синке | Только глубина истории итд; старые уведомления, уже сохранённые в базе, не теряются |
+| Верификация автора уведомления | флаг автора в уведомлении (если итд его присылает), иначе — список подписчиков (`itd_users`) | Для авторов, которых нет ни там, ни там, статус **неизвестен** (показывается отдельно, не как «не верифицирован») |
+| «Прочитано» | `readAt`/`read` из уведомления на момент его первого сохранения | Позже прочитанные в итд уведомления в базе не обновляются |
+| Медиа постов (фото, видео) | `attachments` поста при синке, ссылки ведут на CDN итд | Появляются после первого синка с этой версии; если итд удалит файл, ссылка перестанет работать |
 
 Чего нет в API итд и поэтому нет в интерфейсе (показано честным пустым состоянием):
 отписки и их даты, даты подписки в списке подписчиков, история подписчиков до первого снимка/уведомления,
@@ -170,8 +174,10 @@ docs/API.md                        контракт HTTP API
 | `GET /api/analytics/{username}/growth/followers` («размазывание») | `GET /api/analytics/audience/followers` (снимки + уведомления), `GET /api/analytics/audience/new-followers` |
 | `GET /api/analytics/{username}/growth/{likes,comments,reposts,views}` | `GET /api/analytics/engagement/by-publication-date` (честное название), `GET /api/analytics/engagement/dynamics` (по снимкам) |
 | — | `GET /api/analytics/posting-time`, `GET /api/analytics/weekdays`, `GET /api/comments/recent`, `GET /api/comments/top-posts` |
+| — | `GET /api/notifications?types&actor&verified&unread&q&date_from&date_to&sort&limit&offset`, `GET /api/notifications/summary`, `GET /api/notifications/actors?q` |
+| — | `Post.attachments` (фото/видео/аудио), `GET /api/posts?media=all\|with_media\|image\|video\|text_only` |
 
-Полный контракт — [docs/API.md](docs/API.md), интерактивная документация — `http://127.0.0.1:8000/docs`.
+Полный контракт со схемами — интерактивная документация `http://127.0.0.1:8000/docs`.
 
 ## Резервная копия и откат
 

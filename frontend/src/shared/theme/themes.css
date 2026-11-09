@@ -9,6 +9,9 @@
 
 [data-theme='light'] {
   color-scheme: light;
+  --color-verified: #1d8cf8;
+  --color-verified-contrast: #ffffff;
+  --color-unread: #1d8cf8;
   --color-bg: #f4f4f5;
   --color-surface: #ffffff;
   --color-card: #ffffff;
@@ -51,6 +54,9 @@
 /* «VK»: светлая тема с синим акцентом (только палитра, без чужих логотипов) */
 [data-theme='vk'] {
   color-scheme: light;
+  --color-verified: #0077ff;
+  --color-verified-contrast: #ffffff;
+  --color-unread: #0077ff;
   --color-bg: #edeef0;
   --color-surface: #ffffff;
   --color-card: #ffffff;

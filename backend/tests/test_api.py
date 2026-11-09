@@ -228,3 +228,95 @@ def test_logout_removes_session_and_token(logged_in):
     assert logged_in.get("/api/auth/me").status_code == 401
     # без сохранённого токена синк невозможен даже с новой сессией не начнётся без входа
     assert logged_in.post("/api/sync").status_code == 401
+
+
+def synced(client):
+    client.post("/api/sync")
+    run_worker()
+    return client
+
+
+def test_posts_include_attachments_and_media_filter(logged_in):
+    client = logged_in
+    before = client.get("/api/posts").json()
+    assert before["items"] == [] and before["attachments_synced"] is False
+    synced(client)
+    page = client.get("/api/posts").json()
+    assert page["attachments_synced"] is True
+    by_id = {p["id"]: p for p in page["items"]}
+    assert by_id["p1"]["attachments"][0]["kind"] == "image"
+    assert by_id["p1"]["attachments"][0]["width"] == 800
+    assert by_id["p2"]["attachments"][0]["kind"] == "video"
+
+    def ids(media):
+        return [p["id"] for p in client.get("/api/posts", params={"media": media}).json()["items"]]
+
+    assert ids("image") == ["p1"]
+    assert ids("video") == ["p2"]
+    assert sorted(ids("with_media")) == ["p1", "p2"]
+    assert ids("text_only") == []
+    assert client.get("/api/analytics/overview").json()["top_post"]["attachments"][0]["kind"] == "image"
+
+
+def test_notifications_filters_and_sorting(logged_in):
+    client = synced(logged_in)
+
+    def get(**params):
+        return client.get("/api/notifications", params=params).json()
+
+    everything = get()
+    assert everything["total"] == 4
+    assert [i["id"] for i in everything["items"]] == ["n3", "n4", "n1", "n2"]  # новые сверху
+    assert [i["id"] for i in get(sort="old")["items"]] == ["n2", "n1", "n4", "n3"]
+    assert [i["actor"]["username"] for i in get(sort="actor")["items"]] == ["critic", "critic", "fan1", "star"]
+
+    assert [i["id"] for i in get(types=["like"])["items"]] == ["n3", "n4"]
+    both = client.get("/api/notifications?types=like&types=follow").json()["items"]
+    assert {i["id"] for i in both} == {"n1", "n3", "n4"}
+    assert [i["id"] for i in get(actor="@Critic")["items"]] == ["n4", "n2"]
+
+    # верификация: n3 — из уведомления, f1 — из списка подписчиков (не верифицирован), critic — неизвестно
+    assert [i["id"] for i in get(verified="true")["items"]] == ["n3"]
+    assert [i["id"] for i in get(verified="false")["items"]] == ["n1"]
+    star = get(verified="true")["items"][0]
+    assert star["actor"]["is_verified"] is True
+    assert star["post"]["id"] == "p1" and star["post"]["attachments"][0]["kind"] == "image"
+    assert get(actor="critic")["items"][0]["actor"]["is_verified"] is None
+
+    assert [i["id"] for i in get(unread="true")["items"]] == ["n3"]
+    assert [i["id"] for i in get(q="звезда")["items"]] == ["n3"]  # кириллица без учёта регистра
+    assert [i["id"] for i in get(q="NICE")["items"]] == ["n2"]
+    # n3 создан 06.11 21:30 UTC = 07.11 00:30 по Москве
+    assert [i["id"] for i in get(date_from="2026-11-07", date_to="2026-11-07")["items"]] == ["n3"]
+    assert {i["id"] for i in get(date_to="2026-11-05")["items"]} == {"n1", "n2"}
+
+    paged = get(limit=1, offset=1)
+    assert paged["total"] == 4 and [i["id"] for i in paged["items"]] == ["n4"]
+
+
+def test_notifications_summary_and_actors(logged_in):
+    client = synced(logged_in)
+    s = client.get("/api/notifications/summary").json()
+    assert s["total"] == 4 and s["unread"] == 1
+    assert s["by_type"][0] == {"type": "like", "count": 2}
+    assert s["verified"] == {"verified": 1, "not_verified": 1, "unknown": 2}
+    assert s["top_actors"][0]["username"] == "critic" and s["top_actors"][0]["count"] == 2
+    assert len(s["by_day"]) == 30
+    assert s["since"].startswith("2026-11-04")
+
+    actors = client.get("/api/notifications/actors", params={"q": "ЗВЕЗ"}).json()["items"]
+    assert [a["username"] for a in actors] == ["star"] and actors[0]["is_verified"] is True
+    assert len(client.get("/api/notifications/actors").json()["items"]) == 3
+
+
+@pytest.mark.parametrize(
+    "params", [{"types": "spam"}, {"sort": "random"}, {"limit": 0}, {"verified": "maybe"}, {"date_from": "07.11.2026"}]
+)
+def test_notifications_validation(logged_in, params):
+    assert logged_in.get("/api/notifications", params=params).status_code == 422
+
+
+def test_notifications_empty(logged_in):
+    s = logged_in.get("/api/notifications/summary").json()
+    assert s["total"] == 0 and s["since"] is None and s["top_actors"] == []
+    assert logged_in.get("/api/notifications").json()["items"] == []

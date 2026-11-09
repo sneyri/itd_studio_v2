@@ -1,6 +1,8 @@
 """Доступ к постам и снимкам их метрик (posts, post_metrics_snapshots)."""
 
+import json
 from collections.abc import Sequence
+from dataclasses import asdict
 from datetime import datetime
 
 from sqlalchemy import func, select
@@ -17,6 +19,20 @@ SORT_COLUMNS = {
 }
 
 
+def _media_condition(media: str) -> list:
+    """Фильтр по вложениям через JSON-текст (SQLite LIKE достаточно для одного пользователя)."""
+    has_media = Post.attachments.is_not(None) & (Post.attachments != "[]")
+    if media == "with_media":
+        return [has_media]
+    if media == "text_only":
+        return [Post.attachments == "[]"]
+    if media == "image":
+        return [has_media & (Post.attachments.like('%"mime": "image%') | Post.attachments.like('%"mime": "gif%'))]
+    if media == "video":
+        return [has_media & Post.attachments.like('%"mime": "video%')]
+    return []
+
+
 class PostsRepository:
     def __init__(self, db: Session):
         self.db = db
@@ -24,13 +40,21 @@ class PostsRepository:
     def all_for_user(self, user_id: int) -> list[Post]:
         return list(self.db.scalars(select(Post).where(Post.user_id == user_id)))
 
-    def page(self, user_id: int, limit: int, offset: int, sort: str = "new") -> tuple[list[Post], int]:
+    def page(
+        self, user_id: int, limit: int, offset: int, sort: str = "new", media: str = "all"
+    ) -> tuple[list[Post], int]:
         order = SORT_COLUMNS.get(sort, SORT_COLUMNS["new"])
-        items = self.db.scalars(
-            select(Post).where(Post.user_id == user_id).order_by(order, Post.id).limit(limit).offset(offset)
-        )
-        total = self.db.scalar(select(func.count()).select_from(Post).where(Post.user_id == user_id)) or 0
+        where = [Post.user_id == user_id, *_media_condition(media)]
+        items = self.db.scalars(select(Post).where(*where).order_by(order, Post.id).limit(limit).offset(offset))
+        total = self.db.scalar(select(func.count()).select_from(Post).where(*where)) or 0
         return list(items), total
+
+    def attachments_synced(self, user_id: int) -> bool:
+        """Был ли хоть один синк после внедрения вложений (у постов заполнено поле attachments)."""
+        return (
+            self.db.scalar(select(Post.id).where(Post.user_id == user_id, Post.attachments.is_not(None)).limit(1))
+            is not None
+        )
 
     def upsert_from_itd(self, user_id: int, posts: Sequence[ItdPost], seen_at: datetime) -> int:
         """Обновляет посты и пишет снимок метрик для тех, у кого метрики изменились.
@@ -54,6 +78,9 @@ class PostsRepository:
             post.views_count = item.views_count
             post.is_repost = item.is_repost
             post.repost_original_id = item.repost_original_id
+            post.attachments = json.dumps(
+                [{k: v for k, v in asdict(a).items()} for a in item.attachments], ensure_ascii=False
+            )
             post.last_seen_at = seen_at
 
             metrics = (item.views_count, item.likes_count, item.comments_count, item.reposts_count)

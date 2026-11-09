@@ -7,6 +7,7 @@ import { PageFallback } from './PageFallback'
 
 const LoginPage = lazy(() => import('@/pages/LoginPage'))
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'))
+const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'))
 const CommentsPage = lazy(() => import('@/pages/CommentsPage'))
 const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'))
 const AudiencePage = lazy(() => import('@/pages/AudiencePage'))
@@ -26,6 +27,7 @@ export function AppRoutes() {
           }
         >
           <Route index element={<DashboardPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
           <Route path="comments" element={<CommentsPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="audience" element={<AudiencePage />} />

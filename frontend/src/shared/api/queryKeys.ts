@@ -16,11 +16,15 @@ export const queryKeys = {
   postingTime: ['analytics', 'posting-time'] as const,
   weekdays: ['analytics', 'weekdays'] as const,
   posts: ['posts'] as const,
-  postsPage: (params: { limit: number; offset: number; sort: string }) => ['posts', params] as const,
+  postsPage: (params: { limit: number; offset: number; sort: string; media: string }) => ['posts', params] as const,
   comments: ['comments'] as const,
   recentComments: (limit: number) => ['comments', 'recent', limit] as const,
   topCommented: (limit: number) => ['comments', 'top-posts', limit] as const,
+  notifications: ['notifications'] as const,
+  notificationsList: (params: Record<string, unknown>) => ['notifications', 'list', params] as const,
+  notificationsSummary: ['notifications', 'summary'] as const,
+  notificationActors: (q: string) => ['notifications', 'actors', q] as const,
 }
 
 /** Всё, что зависит от синхронизированных данных. */
-export const dataQueryRoots = [queryKeys.me, queryKeys.analytics, queryKeys.posts, queryKeys.comments, queryKeys.settings]
+export const dataQueryRoots = [queryKeys.me, queryKeys.analytics, queryKeys.posts, queryKeys.comments, queryKeys.notifications, queryKeys.settings]

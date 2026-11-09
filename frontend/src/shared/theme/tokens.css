@@ -60,6 +60,7 @@
   --z-sticky: 20;
   --z-tabbar: 30;
   --z-popover: 40;
+  --z-modal: 60;
 
   /* --- Цвета: тёмная тема (по умолчанию) --- */
   color-scheme: dark;
@@ -101,4 +102,8 @@
   --color-skeleton-shine: #262626;
   --color-overlay: rgba(0, 0, 0, 0.6);
   --shadow-popover: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --color-verified: #4ea1ff;
+  --color-verified-contrast: #000000;
+  --color-lightbox: rgba(0, 0, 0, 0.92);
+  --color-unread: #4ea1ff;
 }

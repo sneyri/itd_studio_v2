@@ -1,5 +1,7 @@
 /** Посты с наибольшим числом комментариев. */
 import { useSession } from '@/features/auth/hooks'
+import { mediaSummary } from '@/features/analytics/posts/media'
+import { PostMediaThumb } from '@/features/analytics/posts/PostMedia'
 import { PostStats } from '@/features/analytics/posts/PostStats'
 import { formatDate, formatNumber, truncate } from '@/shared/lib/format'
 import { Card, EmptyState, ErrorState, IconExternal, Skeleton } from '@/shared/ui'
@@ -31,9 +33,10 @@ export function TopCommentedPosts({ limit = 10 }: { limit?: number }) {
           {items.map((post, index) => (
             <li key={post.id} className="rank-list__item">
               <span className="rank-list__index">{index + 1}</span>
+              {post.attachments.length > 0 && <PostMediaThumb attachments={post.attachments} size={44} />}
               <div className="rank-list__body">
                 <a className="posts-table__link" href={post.url} target="_blank" rel="noopener noreferrer">
-                  {post.content ? truncate(post.content, 120) : <em className="muted">Без текста</em>}
+                  {post.content ? truncate(post.content, 120) : <em className="muted">{mediaSummary(post.attachments) ?? 'Без текста'}</em>}
                   <IconExternal size={13} />
                 </a>
                 <div className="rank-list__meta">

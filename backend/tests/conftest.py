@@ -19,7 +19,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 from app.api.deps import get_gateway_factory  # noqa: E402
 from app.db.models import Base  # noqa: E402
 from app.db.session import SessionLocal, engine  # noqa: E402
-from app.integrations.itd.client import ItdNotification, ItdPost, ItdProfile  # noqa: E402
+from app.integrations.itd.client import ItdAttachment, ItdNotification, ItdPost, ItdProfile, ItdUserLite  # noqa: E402
 from app.main import app  # noqa: E402
 
 UTC = timezone.utc
@@ -45,14 +45,27 @@ class FakeGateway:
         registered_at=dt("2025-01-01T00:00:00Z"),
     )
     posts = [
-        ItdPost("p1", "hello", dt("2026-11-01T10:00:00Z"), None, 5, 1, 0, 100, False, None),
-        ItdPost("p2", None, dt("2026-11-02T10:00:00Z"), None, 3, 2, 1, 50, False, None),
+        ItdPost(
+            "p1", "hello", dt("2026-11-01T10:00:00Z"), None, 5, 1, 0, 100, False, None,
+            (ItdAttachment("a1", "https://cdn.example/pic.jpg", "image/jpeg", 800, 600),),
+        ),
+        ItdPost(
+            "p2", None, dt("2026-11-02T10:00:00Z"), None, 3, 2, 1, 50, False, None,
+            (ItdAttachment("a2", "https://cdn.example/clip.mp4", "video"),),
+        ),
     ]
     notifications_data = [
         ItdNotification("n1", "follow", "f1", "fan1", "Fan 1", None, None, None, dt("2026-11-05T09:00:00Z")),
         ItdNotification("n2", "comment", "c1", "critic", "Critic", None, "p1", "nice", dt("2026-11-04T09:00:00Z")),
+        ItdNotification(
+            "n3", "like", "s1", "star", "Звезда Итд", None, "p1", None, dt("2026-11-06T21:30:00Z"),
+            actor_is_verified=True, is_read=False, target_type="post",
+        ),
+        ItdNotification(
+            "n4", "like", "c1", "critic", "Critic", None, "p2", None, dt("2026-11-06T10:00:00Z"), is_read=True
+        ),
     ]
-    follower_ids_result: set[str] | None = {"f1"}
+    followers_result: list | None = [ItdUserLite("f1", "fan1", "Fan 1", None, False)]
     raise_on_init: Exception | None = None
     rotate_to: str | None = "rotated-token-value-0001"
 
@@ -88,8 +101,8 @@ class FakeGateway:
         known = set(known_ids)
         return [n for n in self.notifications_data if n.id not in known][:max_items]
 
-    def follower_ids(self, user_id, expected_total):
-        return self.follower_ids_result
+    def followers(self, user_id, expected_total):
+        return self.followers_result
 
 
 @pytest.fixture(autouse=True)

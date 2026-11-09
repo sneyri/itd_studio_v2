@@ -3,6 +3,7 @@ import { useSession } from '@/features/auth/hooks'
 import { formatDateTime, formatNumber, truncate } from '@/shared/lib/format'
 import { ChartContainer, IconExternal } from '@/shared/ui'
 import { useOverview } from '../hooks'
+import { PostMedia } from '../posts/PostMedia'
 import { PostStats } from '../posts/PostStats'
 
 export function TopPostCard() {
@@ -21,7 +22,10 @@ export function TopPostCard() {
     >
       {post && (
         <div className="top-post">
-          <p className="top-post__text">{post.content ? truncate(post.content, 280) : <em>Пост без текста</em>}</p>
+          {(post.content || post.attachments.length === 0) && (
+            <p className="top-post__text">{post.content ? truncate(post.content, 280) : <em>Пост без текста</em>}</p>
+          )}
+          <PostMedia attachments={post.attachments} />
           <div className="top-post__meta">
             <span>{formatDateTime(post.created_at, profile?.timezone)}</span>
             <a className="link" href={post.url} target="_blank" rel="noopener noreferrer">

@@ -3,10 +3,10 @@
 import logging
 
 from itdpy import exceptions as itd_exc
-from itdpy.models import Notification, Post, User
+from itdpy.models import Post, User
 
 from app.core.logging import RedactSecretsFilter, redact
-from app.integrations.itd.client import ItdAuthError, ItdUnavailableError, _to_notification, _to_post, _to_profile, _translate
+from app.integrations.itd.client import ItdAuthError, ItdUnavailableError, _raw_notification, _to_post, attachment_kind, _to_profile, _translate
 
 
 def test_post_mapping_marks_reposts_and_parses_dates():
@@ -34,17 +34,41 @@ def test_profile_mapping():
     assert (dto.id, dto.followers_count, dto.registered_at.year) == ("u1", 5, 2025)
 
 
-def test_notification_mapping():
-    n = Notification.model_validate(
+def test_raw_notification_mapping_keeps_verified_flag():
+    dto = _raw_notification(
         {
             "id": "n1",
             "type": "follow",
             "createdAt": "2026-11-07T10:00:00Z",
-            "actor": {"id": "a1", "displayName": "Fan", "username": "fan"},
+            "readAt": None,
+            "targetType": "post",
+            "actor": {"id": "a1", "displayName": "Fan", "username": "fan", "isVerified": True},
         }
     )
-    dto = _to_notification(n)
-    assert (dto.type, dto.actor_id, dto.actor_username) == ("follow", "a1", "fan")
+    assert (dto.type, dto.actor_id, dto.actor_username, dto.actor_is_verified) == ("follow", "a1", "fan", True)
+    assert dto.is_read is False and dto.target_type == "post"
+    unknown = _raw_notification({"id": "n2", "type": "like", "createdAt": "2026-11-07T10:00:00Z", "actor": {}})
+    assert unknown.actor_is_verified is None and unknown.is_read is None and unknown.actor_id is None
+    assert _raw_notification({"id": "n3", "type": "like"}) is None
+
+
+def test_post_attachments_and_kinds():
+    post = Post.model_validate(
+        {
+            "id": "p1",
+            "createdAt": "2026-11-07T19:10:09.607Z",
+            "attachments": [
+                {"id": "a", "url": "https://x/1.jpg", "type": "image/jpeg", "width": 10, "height": 20},
+                {"id": "b", "url": "https://x/2", "type": "video"},
+            ],
+        }
+    )
+    kinds = [a.kind for a in _to_post(post).attachments]
+    assert kinds == ["image", "video"]
+    assert attachment_kind(None, "https://x/a.webm?x=1") == "video"
+    assert attachment_kind("audio/mpeg") == "audio"
+    assert attachment_kind(None, "https://x/doc.pdf") == "file"
+    assert attachment_kind("gif") == "image"
 
 
 def test_error_translation():
